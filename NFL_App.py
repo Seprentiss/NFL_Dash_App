@@ -146,7 +146,7 @@ dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.mi
 
 # Create a Dash app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY,dbc_css], suppress_callback_exceptions=True)
-
+server = app.server
 # Define the app layout with a data table and a distplot
 app.layout = html.Div([
     html.H1('Welcome to The NFL W/L Dashboard by Spencer Prentiss',style={'padding-left':'100px','padding-bottom':'20px'}),
