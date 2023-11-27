@@ -161,16 +161,16 @@ app.layout = html.Div([
     html.Section(
         children=[
             html.P(
-                "Welcome to my NFL game prediction model! I've decided to make this model driven purely by my love of "
-                "football as well as my being competitive and wanting to try and compete with the best models out "
-                "there. This was a lot of fun to work on and I hope to add to it as it’s a great exercise in Data "
+                "Welcome to my NFL game prediction model! I decided to make this model because of my love for "
+                "football as well as me being competitive and wanting to try and compete with the best models out "
+                "there. This was a lot of fun to work on and I hope to add to it as it has been a great exercise in Data "
                 "Science and Machine learning."),
 
             html.P("How does this model work?", style={'font-weight': 'bold'}),
 
             html.P('''It generates a performance distribution for each team to model potential weekly performance. 
             Then it compares two teams’ distributions to model the likelihood of one winning, what the margin of 
-            victory will be, and how many total points will be scored in the matchup.''' ),
+            victory will be, and how many total points will be scored in the matchup.'''),
 
             html.P('''Additional factors considered that could effect team performance'''),
 
@@ -352,8 +352,8 @@ def update_diffplot(selected_cell, current_fig):
     away_team_variance = df.iloc[selected_index]['Away_Team_Variance'] / 100
 
     # Update the distplot data with the new mean and variance
-    updated_x1 = np.random.normal(home_team_dvoa, np.sqrt(home_team_variance), 10000)
-    updated_x2 = np.random.normal(away_team_dvoa, np.sqrt(away_team_variance), 10000)
+    updated_x1 = np.random.normal(home_team_dvoa, np.sqrt(home_team_variance), 1000)
+    updated_x2 = np.random.normal(away_team_dvoa, np.sqrt(away_team_variance), 1000)
 
     ht = df.iloc[selected_index]['Home_Team']
     at = df.iloc[selected_index]['Away_Team']
