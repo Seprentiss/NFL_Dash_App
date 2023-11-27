@@ -12,11 +12,11 @@ load_figure_template('JOURNAL')
 # Generate data for the distplot
 np.random.seed(0)
 
-wins = 109
-loses = 55
+wins = 119
+loses = 59
 
-espn_wins = 105
-espn_loses = 59
+espn_wins = 114
+espn_loses = 64
 
 # vegas_wins = 57
 # vegas_loses = 30
@@ -25,10 +25,10 @@ wp = round(wins / (wins + loses) * 100, 2)
 ewp = round(espn_wins / (espn_wins + espn_loses) * 100, 2)
 # vwp = round(vegas_wins / (vegas_wins + vegas_loses) * 100, 2)
 
-mean_x1 = 0  # Default mean for x1
-variance_x1 = 1  # Default variance for x1
-mean_x2 = 1  # Default mean for x2
-variance_x2 = 1  # Default variance for x2
+mean_x1 = 10  # Default mean for x1
+variance_x1 = 5  # Default variance for x1
+mean_x2 = 5  # Default mean for x2
+variance_x2 = 10  # Default variance for x2
 
 group_labels = ['Home Team', 'Away Team']
 
@@ -43,23 +43,24 @@ fig.update_yaxes(title_text='Probability')  # Add Y-axis label
 
 # new plot
 
-X = np.random.normal(.11, np.sqrt(.05), 1000)
-Y = np.random.normal(.08, np.sqrt(.14), 1000)
+X = np.random.normal(.11, np.sqrt(.05), 10000)
+Y = np.random.normal(.08, np.sqrt(.14), 10000)
 
 diff = difference = X - Y
 
-# Create a histogram trace
-histogram_trace = go.Histogram(x=diff, histnorm='probability density',
-                               name='Difference in Performance Between Home & Away', marker=dict(color='slategray'))
+if np.mean(diff) < 0:
+    hw_hl = f" The Home Team Loses by {round(np.mean(diff) * 2) / 2}"
+else:
+    hw_hl = f" The Home Team Wins by {round(np.mean(diff) * 2) / 2}"
 
-# Create a vertical line trace at X=0
-vertical_line_trace = go.Scatter(
-    x=[0, 0],
-    y=[0, 1],
-    mode='lines',
-    name='Vertical Line at X=0 ( More to the Right is Good for the Home Team )',
-    line=dict(color='red')
-)
+histogram_trace = go.Histogram(x=diff, histnorm='probability density',
+                               name='Home Team Point Spread', marker=dict(color="slategrey"))
+
+updated_figure = {
+    'data': [histogram_trace],  # Update with the histogram and vertical line traces
+    'layout': go.Layout(title=f'Predicted Home Team Point Spread ( Home Team vs. Away Team ){hw_hl}',
+                        xaxis=dict(title='Spread', range=[-73, 73]))
+}
 
 # Read data from a local CSV file
 df = pd.read_csv('wp_data.csv', index_col=False)
@@ -69,16 +70,16 @@ pow_data = pd.read_csv('Pow_data.csv', index_col=False)
 table_data = df.drop(
     columns=['Home_Team_DVOA', 'Home_Team_Variance', 'Home_Color', 'Home_Team_WP', 'Away_Team_DVOA',
              'Away_Team_Variance',
-             "Away_Color", 'Away_Team_WP'])
+             "Away_Color", 'Away_Team_WP',"Game_Quality"])
 
 graph1 = dcc.Graph(id='distplot', figure=fig),
 graph2 = dcc.Graph(
     id='diffplot',
     figure={
-        'data': [histogram_trace, vertical_line_trace],
+        'data': [histogram_trace],
         'layout': go.Layout(
-            title='In Game Performance Difference Distribution (Now Showing Example Plot)',
-            xaxis=dict(title='X-axis'),
+            title='Home Team Point Differential (Point Spread) (Now Showing Example Plot)',
+            xaxis=dict(title='Spread',range=[-10, 10]),
             yaxis=dict(title='Frequency'),
             bargap=0.05  # Adjust the gap between bars in the histogram
         )
@@ -149,13 +150,73 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY,dbc_css], supp
 server = app.server
 # Define the app layout with a data table and a distplot
 app.layout = html.Div([
-    html.H1('Welcome to The NFL W/L Dashboard by Spencer Prentiss',style={'padding-left':'100px','padding-bottom':'20px'}),
+    # html.H1('NFL W/L Dashboard by Spencer Prentiss',style={'padding-left':'100px','padding-bottom':'20px'}),
+    #
+    # html.H3('Welcome to The NFL W/L Dashboard',style={'padding-bottom':'20px','textAlign':'center'}),
 
-    dcc.Markdown(f"My Model's Current Win-Loss Record: {wins} - {loses} ( {wp}% )",
-                 style={'font-size': '20px', 'font-weight': 'bold', 'width': '100%', 'display': 'inline-block'}),
-    dcc.Markdown(
-        f"ESPN FPI Win-Loss Record: {espn_wins} - {espn_loses} ( {ewp}% )",
-        style={'font-size': '20px', 'font-weight': 'bold', 'width': '100%', 'display': 'inline-block'}),
+    html.Header(
+        html.H1("Spencer Prentiss' NFL Picks Dashboard", style={'color': '#fff','textAlign':'center'})
+    ),
+
+    html.Section(
+        children=[
+            html.P(
+                "Welcome to my NFL game prediction model! I've decided to make this model driven purely by my love of "
+                "football as well as my being competitive and wanting to try and compete with the best models out "
+                "there. This was a lot of fun to work on and I hope to add to it as it’s a great exercise in Data "
+                "Science and Machine learning."),
+
+            html.P("How does this model work?", style={'font-weight': 'bold'}),
+
+            html.P('''It generates a performance distribution for each team to model potential weekly performance. 
+            Then it compares two teams’ distributions to model the likelihood of one winning, what the margin of 
+            victory will be, and how many total points will be scored in the matchup.''' ),
+
+            html.P('''Additional factors considered that could effect team performance'''),
+
+            dcc.Markdown("""
+                    - 🏟️ **Home Field Advantage:** Employs a weighted moving average model to consider the impact of home-field advantage throughout the season.
+                    - 🏈 **Quarterback Performance:** Utilizes a formula to assess quarterback performance, factoring in adjustments for injuries and benching.
+                    - 📅 **Bye Weeks Analysis:** Considers historical performance after bye weeks to accommodate teams returning from a bye and their potential impact on the game.
+                """),
+
+            html.P(
+                    "Curious about my model's performance? Compare it with ESPN FPI, a leading model, right here on "
+                    "this site. You'll find my predictions for each game, additional insights into team performance, "
+                    "and a comprehensive power ranking for all teams."),
+
+            html.P(["For a deeper dive into the methodology and technical intricacies behind this project, "
+                    "explore the detailed write-up ",
+                    html.A("here", href="https://docs.google.com/document/d/1S3AXh6LxYXtjvHctYGUz_qzYhbfpmKyaWEFdrsZQ74s/edit?usp=sharing",target="_blank"),"."]),
+            html.Ul([
+                    html.Li("Currently, I’m working on adding models for point spread and point totals."),
+                    # Add more list items as needed
+                ]),
+
+            html.P("Enjoy your exploration of this project, and hopefully, you can glean some new insights from this."),
+
+            html.P(["To check out more of my work you can head over to my ",
+                    html.A("portfolio", href="https://seprentiss.github.io/portfolio/",target="_blank")," or my ", html.A("Linkedin", href="https://www.linkedin.com/in/spencerprentiss/",target="_blank"),"."]),
+
+            html.P("Let the predictions commence, and let's see how well I can do!"),
+
+        ],
+        style={'max-width': '1000px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#394661',
+               'border-radius': '8px', 'box-shadow': '0 0 10px rgba(0, 0, 0, 0.1)'}
+    ),
+
+    html.Section(
+        children=[
+            dcc.Markdown(f"My Model's Current Win-Loss Record: {wins} - {loses} ( {wp}% )",
+                         style={'font-size': '20px', 'font-weight': 'bold', 'width': '100%',
+                                'display': 'inline-block'}),
+            dcc.Markdown(
+                f"ESPN FPI Win-Loss Record: {espn_wins} - {espn_loses} ( {ewp}% )",
+                style={'font-size': '20px', 'font-weight': 'bold', 'width': '100%', 'display': 'inline-block'}),
+        ],
+        style={'max-width': '800px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#394661',
+               'border-radius': '8px', 'box-shadow': '0 0 10px rgba(0, 0, 0, 0.1)'}
+    ),
     # dcc.Markdown(
     #     f"Vegas Win-Loss Record: {vegas_wins} - {vegas_loses} ( {vwp}%. )",
     #     style={'font-size': '20px', 'font-weight': 'bold', 'width': '100%', 'display': 'inline-block'}),
@@ -170,17 +231,39 @@ app.layout = html.Div([
         selected_rows=[],
     ),
 
-    dcc.Markdown(f"Select a matchup above (by clicking on one of the small circles on the left) to view stats about the game and the teams",
-                 style={'font-size': '20px', 'font-weight': 'bold', 'width': '100%', 'display': 'inline-block'}),
+    html.Section(
+        children=[
+            dcc.Markdown(f"Select a matchup above (by clicking on one of the small circles on the left in the table) "
+                         f"to view the predictions for each matchup. Click on the different tabs below to look at "
+                         f"different metrics for the game.",
+                         style={'font-size': '20px', 'font-weight': 'bold', 'width': '100%',
+                                'display': 'inline-block'}),
+        ],
+        style={'max-width': '1000px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#394661',
+               'border-radius': '8px', 'box-shadow': '0 0 10px rgba(0, 0, 0, 0.1)'}
+    ),
+
+    # dcc.Markdown(f"",
+    #              style={'font-size': '20px', 'font-weight': 'bold', 'width': '100%', 'display': 'inline-block'}),
 
     dcc.Tabs(id="tabs", value='tab-1', children=[
         dcc.Tab(label='Matchup Win Probability', value='tab-1'),
         dcc.Tab(label='Teams Performance Distribution', value='tab-2'),
-        # dcc.Tab(label='In Game Performance Difference', value='tab-3'),
-    ], style={  # Change the text color of the tabs
-    }),
+        dcc.Tab(label='Home Team Point Differential (Work In Progress)', value='tab-3'),
+    ], style={}),
 
     html.Div(id='tabs-content'),
+
+    html.Section(
+        children=[
+            dcc.Markdown(f"The chart below shows the Power Rankings for the league and a 90% confidence interval "
+                         f"for each teams average performance strength.",
+                         style={'font-size': '20px', 'font-weight': 'bold', 'width': '100%',
+                                'display': 'inline-block'}),
+        ],
+        style={'max-width': '1000px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#394661',
+               'border-radius': '8px', 'box-shadow': '0 0 10px rgba(0, 0, 0, 0.1)'}
+    ),
 
     html.Div(graph3, style={'font-weight': 'bold'}),
 ], style={'padding': '10px'},className="dbc dbc-row-selectable")
@@ -193,14 +276,14 @@ def render_content(tab):
         return html.Div(graph4, style={'width': '100%', 'display': 'inline-block'})
     elif tab == 'tab-2':
         return html.Div([html.Div(graph1, style={'width': '100%', 'display': 'inline-block'}),
-                         dcc.Markdown(f"This chart is a distribution chart of each teams (in the selected matchup) performance. What does this "
-                                      f"mean? Each team has a baseline performance score. For example Team A "
-                                      f"has a score of 10%. This corresponds to them being better than the average "
-                                      f"team by 10%. Each team also has a variance which tells us how variable their "
-                                      f"performance is. The higher the number the greater variance in week to week "
-                                      f"performance you can expect. What does this show us? Essentially you can look at "
-                                      f"the chart an see how close teams are. The more they overlap the closer they are and vice versa. "
-                                      f"",style={'padding': '10px'})],
+                         dcc.Markdown(f"This chart serves as a theoretical representation of each teams "
+                                      f"performance distribution in a selected matchup. Each team has a mean baseline "
+                                      f"performance value aligned with the center of their performance curve. The curve's "
+                                      f"width indicats the degree of week-to-week performance fluctuations (higher "
+                                      f"variance results in wider curves). This visual tool allows for an intuitive "
+                                      f"assessment of how close a matchup is; overlapping curves suggest a close game, "
+                                      f"while distinct curves indicate one team is much better than the other.",
+                                      style={'padding': '10px'})],
                         style={'display': 'grid', 'grid-template-columns': '3fr 1fr','padding-bottom': '10px'})
     elif tab == 'tab-3':
         return html.Div(graph2, style={'width': '100%', 'display': 'inline-block'})
@@ -263,7 +346,7 @@ def update_diffplot(selected_cell, current_fig):
     selected_index = selected_cell[0]
 
     # Extract data from the selected row
-    home_team_dvoa = df.iloc[selected_index]['Home_Team_DVOA'] / 100
+    home_team_dvoa = df.iloc[selected_index]['Home_Team_DVOA'] / 100 + .102
     home_team_variance = df.iloc[selected_index]['Home_Team_Variance'] / 100
     away_team_dvoa = df.iloc[selected_index]['Away_Team_DVOA'] / 100
     away_team_variance = df.iloc[selected_index]['Away_Team_Variance'] / 100
@@ -276,25 +359,71 @@ def update_diffplot(selected_cell, current_fig):
     at = df.iloc[selected_index]['Away_Team']
 
     ht_color = df.iloc[selected_index]['Home_Color']
+    avg_points = 21.77
+    for i in range(len(updated_x1)):
+        if updated_x1[i] < 0:
+            updated_x1[i] = round(avg_points * (1 + updated_x1[i]))
+        else:
+            updated_x1[i] = round(avg_points * (1 + updated_x1[i]))
+
+    for i in range(len(updated_x2)):
+        if updated_x2[i] < 0:
+            updated_x2[i] = round(avg_points * (1 + updated_x2[i]))
+        else:
+            updated_x2[i] = round(avg_points * (1 + updated_x2[i]))
+
+    print(np.mean(updated_x1+updated_x2))
 
     diff = updated_x1 - updated_x2
 
-    # Create a histogram trace
-    histogram_trace = go.Histogram(x=diff, histnorm='probability density',
-                                   name='Difference in Performance Between Home & Away', marker=dict(color=ht_color))
+    margins = pd.read_csv("NFL_Margins.csv")
 
-    # Create a vertical line trace at X=0
-    vertical_line_trace = go.Scatter(
-        x=[0, 0],
-        y=[0, 1],
-        mode='lines',
-        name='Vertical Line at X=0 ( More to the Right is Good for the Home Team )',
-        line=dict(color='red')
-    )
+    data = np.array([])
+    for i in range(len(margins)):
+        tot = margins["MARGIN"].iloc[i]
+        freq = margins["FREQ"].iloc[i]
+        for j in range(freq):
+            data = np.append(data, tot)
+
+    # Parameters for the second normal distribution
+    mu1, std1 = np.mean(diff), np.std(diff)
+
+    # Number of samples
+    num_samples = 100_000
+
+    # Generate samples from the first and second distributions
+    dist1_samples = np.random.choice(data, size=int(num_samples * 0.1), replace=True)
+    dist2_samples = np.random.normal(mu1, std1, int(num_samples * 0.9))
+
+    dist2_samples = [round(element) for element in dist2_samples]
+
+
+    # Assign weights to the distributions
+    weight_dist1 = 0.1
+    weight_dist2 = 0.9
+
+    # Combine the samples based on weights
+    weighted_samples = np.concatenate([
+        np.random.choice(dist1_samples, size=int(num_samples * weight_dist1)),
+        np.random.choice(dist2_samples, size=int(num_samples * weight_dist2))
+    ])
+
+    # Create a histogram trace
+    histogram_trace = go.Histogram(x=weighted_samples, histnorm='probability density',
+                                   name='Home Team Point Spread', marker=dict(color=ht_color))
+
+
+    mean = np.mean(weighted_samples)
+
+    if mean < 0:
+        hw_hl = f" The {ht} Lose by {round(mean*2)/2}"
+    else:
+        hw_hl = f" The {ht} Win by {round(mean*2)/2}"
 
     updated_figure = {
-        'data': [histogram_trace, vertical_line_trace],  # Update with the histogram and vertical line traces
-        'layout': go.Layout(title=f'In Game Performance Difference ( {ht} vs. {at} )')
+        'data': [histogram_trace],  # Update with the histogram and vertical line traces
+        'layout': go.Layout(title=f'Predicted Home Team Point Spread ( {ht} vs. {at} ){hw_hl}',
+                            xaxis=dict(title='Spread', range=[-73,73],tickvals = list(range(-75, 76, 5))))
     }
 
     return updated_figure
@@ -338,4 +467,4 @@ def update_piechart(selected_cell, current_fig):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=False, host='0.0.0.0', port=8050)
+    app.run_server(debug=False, host='0.0.0.0', port=8080)
