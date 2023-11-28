@@ -12,11 +12,11 @@ load_figure_template('JOURNAL')
 # Generate data for the distplot
 np.random.seed(0)
 
-wins = 119
-loses = 59
+wins = 120
+loses = 60
 
-espn_wins = 114
-espn_loses = 64
+espn_wins = 115
+espn_loses = 65
 
 # vegas_wins = 57
 # vegas_loses = 30
@@ -165,11 +165,16 @@ app.layout = html.Div([
                 "football as well as me being competitive and wanting to try and compete with the best models out "
                 "there. This was a lot of fun to work on and I hope to add to it as it has been a great exercise in Data "
                 "Science and Machine learning."),
+        ], style={'max-width': '1000px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#2e4059',
+               'border-radius': '8px', 'box-shadow': '0 0 10px rgba(0, 0, 0, 0.1)'}),
+
+    html.Section(
+        children=[
 
             html.P("How does this model work?", style={'font-weight': 'bold'}),
 
-            html.P('''It generates a performance distribution for each team to model potential weekly performance. 
-            Then it compares two teams’ distributions to model the likelihood of one winning, what the margin of 
+            html.P('''It generates a performance distribution for each team to predict potential weekly performance. 
+            Then it compares two teams’ distributions to estimate the likelihood of one winning, what the margin of 
             victory will be, and how many total points will be scored in the matchup.'''),
 
             html.P('''Additional factors considered that could effect team performance'''),
@@ -189,21 +194,26 @@ app.layout = html.Div([
                     "explore the detailed write-up ",
                     html.A("here", href="https://docs.google.com/document/d/1S3AXh6LxYXtjvHctYGUz_qzYhbfpmKyaWEFdrsZQ74s/edit?usp=sharing",target="_blank"),"."]),
             html.Ul([
-                    html.Li("Currently, I’m working on adding models for point spread and point totals."),
+                    html.Li("Currently, I’m working on adding approaches for point spread and point totals."),
                     # Add more list items as needed
-                ]),
-
-            html.P("Enjoy your exploration of this project, and hopefully, you can glean some new insights from this."),
-
-            html.P(["To check out more of my work you can head over to my ",
-                    html.A("portfolio", href="https://seprentiss.github.io/portfolio/",target="_blank")," or my ", html.A("Linkedin", href="https://www.linkedin.com/in/spencerprentiss/",target="_blank"),"."]),
-
-            html.P("Let the predictions commence, and let's see how well I can do!"),
+                ])
 
         ],
-        style={'max-width': '1000px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#394661',
+        style={'max-width': '1000px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#2e4059',
                'border-radius': '8px', 'box-shadow': '0 0 10px rgba(0, 0, 0, 0.1)'}
     ),
+
+    html.Section(
+        children=[html.P("Enjoy your exploration of this project, and hopefully, you can glean some new insights from this."),
+
+                html.P(["To check out more of my work you can head over to my ",
+                    html.A("portfolio", href="https://seprentiss.github.io/portfolio/",target="_blank")," or my ", html.A("Linkedin", href="https://www.linkedin.com/in/spencerprentiss/",target="_blank"),"."]),
+
+                html.P("Let the predictions commence, and let's see how well I can do!"),],
+
+        style={'max-width': '1000px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#2e4059',
+               'border-radius': '8px', 'box-shadow': '0 0 10px rgba(0, 0, 0, 0.1)'}
+        ),
 
     html.Section(
         children=[
@@ -214,7 +224,7 @@ app.layout = html.Div([
                 f"ESPN FPI Win-Loss Record: {espn_wins} - {espn_loses} ( {ewp}% )",
                 style={'font-size': '20px', 'font-weight': 'bold', 'width': '100%', 'display': 'inline-block'}),
         ],
-        style={'max-width': '800px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#394661',
+        style={'max-width': '800px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#2e4059',
                'border-radius': '8px', 'box-shadow': '0 0 10px rgba(0, 0, 0, 0.1)'}
     ),
     # dcc.Markdown(
@@ -239,20 +249,47 @@ app.layout = html.Div([
                          style={'font-size': '20px', 'font-weight': 'bold', 'width': '100%',
                                 'display': 'inline-block'}),
         ],
-        style={'max-width': '1000px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#394661',
+        style={'max-width': '1000px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#2e4059',
                'border-radius': '8px', 'box-shadow': '0 0 10px rgba(0, 0, 0, 0.1)'}
     ),
 
     # dcc.Markdown(f"",
     #              style={'font-size': '20px', 'font-weight': 'bold', 'width': '100%', 'display': 'inline-block'}),
 
-    dcc.Tabs(id="tabs", value='tab-1', children=[
-        dcc.Tab(label='Matchup Win Probability', value='tab-1'),
-        dcc.Tab(label='Teams Performance Distribution', value='tab-2'),
-        dcc.Tab(label='Home Team Point Differential (Work In Progress)', value='tab-3'),
-    ], style={}),
+    dbc.Card(
+        [
+            dbc.CardHeader(
+                dbc.Tabs(
+                    id="tabs",
+                    active_tab='tab-1',
+                    children=[
+                        dbc.Tab(
+                            label='Matchup Win Probability',
+                            tab_id='tab-1',
+                            active_label_style={"background-color": "#2e4059"},
+                            label_style={"background-color": "#595959","margin-right": "2px"},
+                        ),
+                        dbc.Tab(
+                            label='Teams Performance Distribution',
+                            tab_id='tab-2',
+                            active_label_style={"background-color": "#2e4059"},
+                            label_style={"background-color": "#595959","margin-right": "2px"}
 
-    html.Div(id='tabs-content'),
+                        ),
+                        dbc.Tab(
+                            label='Home Team Point Differential (Work In Progress)',
+                            tab_id='tab-3',
+                            active_label_style={"background-color": "#2e4059"},
+                            label_style={"background-color": "#595959"}
+                        ),
+                    ],
+                ),
+            style={"background-color": "#222222"}),
+            dbc.CardBody(html.Div(id='tabs-content')),
+        ],style={"background-color": "white"}),
+
+
+    # html.Div(id='tabs-content'),
 
     html.Section(
         children=[
@@ -261,7 +298,7 @@ app.layout = html.Div([
                          style={'font-size': '20px', 'font-weight': 'bold', 'width': '100%',
                                 'display': 'inline-block'}),
         ],
-        style={'max-width': '1000px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#394661',
+        style={'max-width': '1000px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#2e4059',
                'border-radius': '8px', 'box-shadow': '0 0 10px rgba(0, 0, 0, 0.1)'}
     ),
 
@@ -270,7 +307,7 @@ app.layout = html.Div([
 
 
 @app.callback(Output('tabs-content', 'children'),
-              Input('tabs', 'value'))
+              Input('tabs', 'active_tab'))
 def render_content(tab):
     if tab == 'tab-1':
         return html.Div(graph4, style={'width': '100%', 'display': 'inline-block'})
@@ -279,7 +316,7 @@ def render_content(tab):
                          dcc.Markdown(f"This chart serves as a theoretical representation of each teams "
                                       f"performance distribution in a selected matchup. Each team has a mean baseline "
                                       f"performance value aligned with the center of their performance curve. The curve's "
-                                      f"width indicats the degree of week-to-week performance fluctuations (higher "
+                                      f"width indicates the degree of week-to-week performance fluctuations (higher "
                                       f"variance results in wider curves). This visual tool allows for an intuitive "
                                       f"assessment of how close a matchup is; overlapping curves suggest a close game, "
                                       f"while distinct curves indicate one team is much better than the other.",
@@ -464,7 +501,6 @@ def update_piechart(selected_cell, current_fig):
     }
 
     return updated_figure
-
 
 if __name__ == '__main__':
     app.run_server(debug=False, host='0.0.0.0', port=8080)
