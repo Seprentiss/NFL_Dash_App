@@ -59,7 +59,7 @@ histogram_trace = go.Histogram(x=diff, histnorm='probability density',
 updated_figure = {
     'data': [histogram_trace],  # Update with the histogram and vertical line traces
     'layout': go.Layout(title=f'Predicted Home Team Point Spread ( Home Team vs. Away Team ){hw_hl}',
-                        xaxis=dict(title='Spread', range=[-73, 73]))
+                        xaxis=dict(title='Spread', range=[-60, 60]))
 }
 
 # Read data from a local CSV file
@@ -460,7 +460,7 @@ def update_diffplot(selected_cell, current_fig):
     updated_figure = {
         'data': [histogram_trace],  # Update with the histogram and vertical line traces
         'layout': go.Layout(title=f'Predicted Home Team Point Spread ( {ht} vs. {at} ){hw_hl}',
-                            xaxis=dict(title='Spread', range=[-73,73],tickvals = list(range(-75, 76, 5))))
+                            xaxis=dict(title='Spread', range=[-73,73],tickvals = list(range(-60, 61, 5))))
     }
 
     return updated_figure
@@ -491,7 +491,7 @@ def update_piechart(selected_cell, current_fig):
     at_color = df.iloc[selected_index]['Away_Color']
 
     # Create a histogram trace
-    pie_chart = go.Pie(labels=[ht, at], values=[home_team_wp[:-1], away_team_wp[:-1]], pull=[0.15, 0],
+    pie_chart = go.Pie(labels=[ht, at], values=[f"{home_team_wp[:-1]}", f"{away_team_wp[:-1]}"], pull=[0.15, 0],
                        marker=dict(colors=[ht_color, at_color], line=dict(color='#000000', width=2)),
                        hoverinfo='label+percent')
 
@@ -503,4 +503,4 @@ def update_piechart(selected_cell, current_fig):
     return updated_figure
 
 if __name__ == '__main__':
-    app.run_server(debug=False, host='0.0.0.0', port=8080)
+    app.run_server(debug=False, host='0.0.0.0', port=8050)
