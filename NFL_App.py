@@ -43,8 +43,8 @@ fig.update_yaxes(title_text='Probability')  # Add Y-axis label
 
 # new plot
 
-X = np.random.normal(.11, np.sqrt(.05), 10000)
-Y = np.random.normal(.08, np.sqrt(.14), 10000)
+X = np.random.normal(.11, np.sqrt(.05), 1000)
+Y = np.random.normal(.08, np.sqrt(.14), 1000)
 
 diff = difference = X - Y
 
@@ -190,13 +190,13 @@ app.layout = html.Div([
                     "this site. You'll find my predictions for each game, additional insights into team performance, "
                     "and a comprehensive power ranking for all teams."),
 
-            html.P(["For a deeper dive into the methodology and technical intricacies behind this project, "
-                    "explore the detailed write-up ",
-                    html.A("here", href="https://docs.google.com/document/d/1S3AXh6LxYXtjvHctYGUz_qzYhbfpmKyaWEFdrsZQ74s/edit?usp=sharing",target="_blank"),"."]),
-            html.Ul([
-                    html.Li("Currently, I’m working on adding approaches for point spread and point totals."),
-                    # Add more list items as needed
-                ])
+            # html.P(["For a deeper dive into the methodology and technical intricacies behind this project, "
+            #         "explore the detailed write-up ",
+            #         html.A("here", href="https://docs.google.com/document/d/1S3AXh6LxYXtjvHctYGUz_qzYhbfpmKyaWEFdrsZQ74s/edit?usp=sharing",target="_blank"),"."]),
+            # html.Ul([
+            #         html.Li("Currently, I’m working on adding approaches for point spread and point totals."),
+            #         # Add more list items as needed
+            #     ])
 
         ],
         style={'max-width': '1000px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#2e4059',
@@ -320,7 +320,7 @@ def render_content(tab):
                                       f"variance results in wider curves). This visual tool allows for an intuitive "
                                       f"assessment of how close a matchup is; overlapping curves suggest a close game, "
                                       f"while distinct curves indicate one team is much better than the other.",
-                                      style={'padding': '10px'})],
+                                      style={'padding': '10px','background-color':'#595959'})],
                         style={'display': 'grid', 'grid-template-columns': '3fr 1fr','padding-bottom': '10px'})
     elif tab == 'tab-3':
         return html.Div(graph2, style={'width': '100%', 'display': 'inline-block'})
