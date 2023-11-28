@@ -409,8 +409,6 @@ def update_diffplot(selected_cell, current_fig):
         else:
             updated_x2[i] = round(avg_points * (1 + updated_x2[i]))
 
-    print(np.mean(updated_x1+updated_x2))
-
     diff = updated_x1 - updated_x2
 
     margins = pd.read_csv("NFL_Margins.csv")
