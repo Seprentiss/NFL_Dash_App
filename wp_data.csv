@@ -1,14 +1,16 @@
 Home_Team,Home_Team_WP,Away_Team,Away_Team_WP,Game_Quality,Home_Team_DVOA,Home_Team_Variance,Home_Color,Away_Team_DVOA,Away_Team_Variance,Away_Color
-Dallas Cowboys,79%,Seattle Seahawks,21%,43.75,26.84,17.98,#041E42,-3.75,7.4,#002244
-Pittsburgh Steelers,83%,Arizona Cardinals,17%,13.42,16.89,12.1,#FFB612,-29.18,20.63,#97233F
-New York Jets,47%,Atlanta Falcons,53%,30.72,-31.17529,11.38,#125740,-17.82,9.29,#A71930
-Washington Commanders,28%,Miami Dolphins,72%,23.67,-21.03,11.5,#773141,19.17,15.32,#008E97
-New Orleans Saints,43%,Detroit Lions,57%,50.24,-4.05,11.3,#A08A58,14.92,16.45,#0076B6
-Houston Texans,63%,Denver Broncos,37%,57.87,5.44,15.05,#03202F,-2.55,12.19,#FB4F14
-Tennessee Titans,48%,Indianapolis Colts,52%,49.78,-9.55,11.39,#4095D1,2.26,12.84,#003D79
-New England Patriots,38%,Los Angeles Chargers,62%,35.09,-18.76,18.37,#002244,5.04,4.23,#0080C6
-Tampa Bay Buccaneers,82%,Carolina Panthers,18%,20.68,-10.16,12.58,#D50A0A,-35.12,2.0,#0085CA
-Philadelphia Eagles,38%,San Francisco 49ers,62%,63.53,14.98,7.81,#014A53,38.59,15.16,#AA0000
-Los Angeles Rams,48%,Cleveland Browns,52%,51.45,-7.07,12.8,#002244,5.4518699999999995,18.31,#311D00
-Green Bay Packers,35%,Kansas City Chiefs,65%,46.03,-2.24,13.44,#203731,26.62,11.34,#E31837
-Jacksonville Jaguars,67%,Cincinnati Bengals,33%,54.22,16.5,16.34,#006778,-0.6012599999999999,21.44,#FB4F14
+Pittsburgh Steelers,79%,New England Patriots,21%,18.65,12.93,13.84,#FFB612,-26.883630000000004,16.88,#002244
+Cleveland Browns,56%,Jacksonville Jaguars,44%,61.29,4.2877,19.05,#311D00,-0.22999999999999865,16.22,#006778
+New Orleans Saints,73%,Carolina Panthers,27%,25.68,-17.14,10.47,#A08A58,-34.54,1.65,#0085CA
+Atlanta Falcons,48%,Tampa Bay Buccaneers,52%,48.96,-13.97,8.8,#A71930,-7.56,12.25,#D50A0A
+New York Jets,27%,Houston Texans,73%,23.85,-24.97,10.08,#125740,8.7,13.71,#03202F
+Chicago Bears,38%,Detroit Lions,62%,39.12,-11.36,9.57,#0B162A,15.27,14.91,#0076B6
+Baltimore Ravens,86%,Los Angeles Rams,14%,33.01,43.94,15.73,#241773,-3.64,12.82,#002244
+Cincinnati Bengals,57%,Indianapolis Colts,43%,61.12,6.45837,20.66,#FB4F14,0.56,12.23,#003D79
+Las Vegas Raiders,36%,Minnesota Vikings,64%,39.58,-17.49,6.98,#000000,-0.07763000000000009,6.7,#4F2683
+San Francisco 49ers,86%,Seattle Seahawks,14%,35.6,43.4,14.86,#AA0000,-2.03,6.39,#002244
+Los Angeles Chargers,65%,Denver Broncos,35%,55.17,6.21,3.95,#0080C6,-3.77,10.58,#FB4F14
+Kansas City Chiefs,53%,Buffalo Bills,47%,73.44,22.46,11.43,#E31837,16.04,21.96,#00338D
+Dallas Cowboys,63%,Philadelphia Eagles,37%,66.27,23.37,15.49,#041E42,11.33,8.92,#014A53
+New York Giants,30%,Green Bay Packers,70%,11.71,-35.74,13.53,#0B2265,3.59,14.66,#203731
+Miami Dolphins,78%,Tennessee Titans,22%,31.85,23.89,17.05,#008E97,-12.9,11.79,#4095D1

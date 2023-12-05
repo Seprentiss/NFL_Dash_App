@@ -12,11 +12,11 @@ load_figure_template('JOURNAL')
 # Generate data for the distplot
 np.random.seed(0)
 
-wins = 120
-loses = 60
+wins = 129
+loses = 64
 
-espn_wins = 115
-espn_loses = 65
+espn_wins = 121
+espn_loses = 69
 
 # vegas_wins = 57
 # vegas_loses = 30
@@ -376,6 +376,8 @@ def update_distplot(selected_cell, current_fig):
     State('diffplot', 'figure')
 )
 def update_diffplot(selected_cell, current_fig):
+
+    np.random.seed(42)
     if not selected_cell:
         return current_fig
 
@@ -383,14 +385,14 @@ def update_diffplot(selected_cell, current_fig):
     selected_index = selected_cell[0]
 
     # Extract data from the selected row
-    home_team_dvoa = df.iloc[selected_index]['Home_Team_DVOA'] / 100 + .102
+    home_team_dvoa = df.iloc[selected_index]['Home_Team_DVOA'] / 100 + 0.09532660918445379
     home_team_variance = df.iloc[selected_index]['Home_Team_Variance'] / 100
     away_team_dvoa = df.iloc[selected_index]['Away_Team_DVOA'] / 100
     away_team_variance = df.iloc[selected_index]['Away_Team_Variance'] / 100
 
-    # Update the distplot data with the new mean and variance
-    updated_x1 = np.random.normal(home_team_dvoa, np.sqrt(home_team_variance), 1000)
-    updated_x2 = np.random.normal(away_team_dvoa, np.sqrt(away_team_variance), 1000)
+    # Update the diffplot data with the new mean and variance
+    updated_x1 = np.random.normal(home_team_dvoa, np.sqrt(home_team_variance), 10_000)
+    updated_x2 = np.random.normal(away_team_dvoa, np.sqrt(away_team_variance), 10_000)
 
     ht = df.iloc[selected_index]['Home_Team']
     at = df.iloc[selected_index]['Away_Team']
@@ -424,18 +426,18 @@ def update_diffplot(selected_cell, current_fig):
     mu1, std1 = np.mean(diff), np.std(diff)
 
     # Number of samples
-    num_samples = 100_000
+    num_samples = 10_000
 
     # Generate samples from the first and second distributions
-    dist1_samples = np.random.choice(data, size=int(num_samples * 0.1), replace=True)
-    dist2_samples = np.random.normal(mu1, std1, int(num_samples * 0.9))
+    dist1_samples = np.random.choice(data, size=int(num_samples * 0.2), replace=True)
+    dist2_samples = np.random.normal(mu1, std1, int(num_samples * 0.8))
 
     dist2_samples = [round(element) for element in dist2_samples]
 
 
     # Assign weights to the distributions
-    weight_dist1 = 0.1
-    weight_dist2 = 0.9
+    weight_dist1 = 0.2
+    weight_dist2 = 0.8
 
     # Combine the samples based on weights
     weighted_samples = np.concatenate([
@@ -458,7 +460,7 @@ def update_diffplot(selected_cell, current_fig):
     updated_figure = {
         'data': [histogram_trace],  # Update with the histogram and vertical line traces
         'layout': go.Layout(title=f'Predicted Home Team Point Spread ( {ht} vs. {at} ){hw_hl}',
-                            xaxis=dict(title='Spread', range=[-73,73],tickvals = list(range(-60, 61, 5))))
+                            xaxis=dict(title='Spread', range=[-60,60],tickvals = list(range(-60, 61, 5))))
     }
 
     return updated_figure
