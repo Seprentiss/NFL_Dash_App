@@ -309,18 +309,18 @@ app.layout = html.Div([
 ], style={'padding': '10px'}, className="dbc dbc-row-selectable")
 
 
-def american_to_decimal(american_odds):
-    if american_odds < 0:
-        return 1 - (100 / american_odds)
-    else:
-        return 1 + american_odds / 100
-
-
-def american_to_prob(american_odds):
-    if american_odds < 0:
-        return (american_odds / (american_odds + 100)) * 100
-    else:
-        return (100 / (american_odds + 100)) * 100
+# def american_to_decimal(american_odds):
+#     if american_odds < 0:
+#         return 1 - (100 / american_odds)
+#     else:
+#         return 1 + american_odds / 100
+#
+#
+# def american_to_prob(american_odds):
+#     if american_odds < 0:
+#         return (american_odds / (american_odds + 100)) * 100
+#     else:
+#         return (100 / (american_odds + 100)) * 100
 
 
 @app.callback(Output('tabs-content', 'children'),
