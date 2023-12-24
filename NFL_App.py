@@ -12,11 +12,11 @@ load_figure_template('JOURNAL')
 # Generate data for the distplot
 np.random.seed(0)
 
-wins = 139
-loses = 71
+wins = 149
+loses = 76
 
-espn_wins = 135
-espn_loses = 75
+espn_wins = 145
+espn_loses = 80
 
 # vegas_wins = 57
 # vegas_loses = 30
@@ -65,12 +65,14 @@ updated_figure = {
 # Read data from a local CSV file
 df = pd.read_csv('wp_data.csv', index_col=False)
 
+vegas_data = pd.read_csv("Vegas_Lines.csv")
+
 pow_data = pd.read_csv('Pow_data.csv', index_col=False)
 
 table_data = df.drop(
     columns=['Home_Team_DVOA', 'Home_Team_Variance', 'Home_Color', 'Home_Team_WP', 'Away_Team_DVOA',
              'Away_Team_Variance',
-             "Away_Color", 'Away_Team_WP',"Game_Quality"])
+             "Away_Color", 'Away_Team_WP', "Game_Quality"])
 
 graph1 = dcc.Graph(id='distplot', figure=fig),
 graph2 = dcc.Graph(
@@ -79,7 +81,7 @@ graph2 = dcc.Graph(
         'data': [histogram_trace],
         'layout': go.Layout(
             title='Home Team Point Differential (Point Spread) (Now Showing Example Plot)',
-            xaxis=dict(title='Spread',range=[-10, 10]),
+            xaxis=dict(title='Spread', range=[-10, 10]),
             yaxis=dict(title='Frequency'),
             bargap=0.05  # Adjust the gap between bars in the histogram
         )
@@ -120,7 +122,6 @@ figure1.update_layout(
     legend_traceorder="reversed"
 )
 
-
 # Make the chart interactive
 figure1.update_xaxes(
     showspikes=True,
@@ -146,7 +147,7 @@ graph4 = dcc.Graph(
 dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"
 
 # Create a Dash app
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY,dbc_css], suppress_callback_exceptions=True)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY, dbc_css], suppress_callback_exceptions=True)
 server = app.server
 # Define the app layout with a data table and a distplot
 app.layout = html.Div([
@@ -155,7 +156,7 @@ app.layout = html.Div([
     # html.H3('Welcome to The NFL W/L Dashboard',style={'padding-bottom':'20px','textAlign':'center'}),
 
     html.Header(
-        html.H1("Spencer Prentiss' NFL Picks Dashboard", style={'color': '#fff','textAlign':'center'})
+        html.H1("Spencer Prentiss' NFL Picks Dashboard", style={'color': '#fff', 'textAlign': 'center'})
     ),
 
     html.Section(
@@ -166,7 +167,7 @@ app.layout = html.Div([
                 "there. This was a lot of fun to work on and I hope to add to it as it has been a great exercise in Data "
                 "Science and Machine learning."),
         ], style={'max-width': '1000px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#2e4059',
-               'border-radius': '8px', 'box-shadow': '0 0 10px rgba(0, 0, 0, 0.1)'}),
+                  'border-radius': '8px', 'box-shadow': '0 0 10px rgba(0, 0, 0, 0.1)'}),
 
     html.Section(
         children=[
@@ -186,9 +187,9 @@ app.layout = html.Div([
                 """),
 
             html.P(
-                    "Curious about my model's performance? Compare it with ESPN FPI, a leading model, right here on "
-                    "this site. You'll find my predictions for each game, additional insights into team performance, "
-                    "and a comprehensive power ranking for all teams."),
+                "Curious about my model's performance? Compare it with ESPN FPI, a leading model, right here on "
+                "this site. You'll find my predictions for each game, additional insights into team performance, "
+                "and a comprehensive power ranking for all teams."),
 
             # html.P(["For a deeper dive into the methodology and technical intricacies behind this project, "
             #         "explore the detailed write-up ",
@@ -204,16 +205,18 @@ app.layout = html.Div([
     ),
 
     html.Section(
-        children=[html.P("Enjoy your exploration of this project, and hopefully, you can glean some new insights from this."),
+        children=[
+            html.P("Enjoy your exploration of this project, and hopefully, you can glean some new insights from this."),
 
-                html.P(["To check out more of my work you can head over to my ",
-                    html.A("portfolio", href="https://seprentiss.github.io/portfolio/",target="_blank")," or my ", html.A("Linkedin", href="https://www.linkedin.com/in/spencerprentiss/",target="_blank"),"."]),
+            html.P(["To check out more of my work you can head over to my ",
+                    html.A("portfolio", href="https://seprentiss.github.io/portfolio/", target="_blank"), " or my ",
+                    html.A("Linkedin", href="https://www.linkedin.com/in/spencerprentiss/", target="_blank"), "."]),
 
-                html.P("Let the predictions commence, and let's see how well I can do!"),],
+            html.P("Let the predictions commence, and let's see how well I can do!"), ],
 
         style={'max-width': '1000px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#2e4059',
                'border-radius': '8px', 'box-shadow': '0 0 10px rgba(0, 0, 0, 0.1)'}
-        ),
+    ),
 
     html.Section(
         children=[
@@ -267,27 +270,26 @@ app.layout = html.Div([
                             label='Matchup Win Probability',
                             tab_id='tab-1',
                             active_label_style={"background-color": "#2e4059"},
-                            label_style={"background-color": "#595959","margin-right": "2px"},
+                            label_style={"background-color": "#595959", "margin-right": "2px"},
                         ),
                         dbc.Tab(
                             label='Teams Performance Distribution',
                             tab_id='tab-2',
                             active_label_style={"background-color": "#2e4059"},
-                            label_style={"background-color": "#595959","margin-right": "2px"}
+                            label_style={"background-color": "#595959", "margin-right": "2px"}
 
                         ),
                         dbc.Tab(
-                            label='Home Team Point Differential (Work In Progress)',
+                            label='Home Team Point Differential',
                             tab_id='tab-3',
                             active_label_style={"background-color": "#2e4059"},
                             label_style={"background-color": "#595959"}
                         ),
                     ],
                 ),
-            style={"background-color": "#222222"}),
+                style={"background-color": "#222222"}),
             dbc.CardBody(html.Div(id='tabs-content')),
-        ],style={"background-color": "white"}),
-
+        ], style={"background-color": "white"}),
 
     # html.Div(id='tabs-content'),
 
@@ -303,7 +305,22 @@ app.layout = html.Div([
     ),
 
     html.Div(graph3, style={'font-weight': 'bold'}),
-], style={'padding': '10px'},className="dbc dbc-row-selectable")
+
+], style={'padding': '10px'}, className="dbc dbc-row-selectable")
+
+
+def american_to_decimal(american_odds):
+    if american_odds < 0:
+        return 1 - (100 / american_odds)
+    else:
+        return 1 + american_odds / 100
+
+
+def american_to_prob(american_odds):
+    if american_odds < 0:
+        return (american_odds / (american_odds + 100)) * 100
+    else:
+        return (100 / (american_odds + 100)) * 100
 
 
 @app.callback(Output('tabs-content', 'children'),
@@ -320,8 +337,8 @@ def render_content(tab):
                                       f"variance results in wider curves). This visual tool allows for an intuitive "
                                       f"assessment of how close a matchup is; overlapping curves suggest a close game, "
                                       f"while distinct curves indicate one team is much better than the other.",
-                                      style={'padding': '10px','background-color':'#595959'})],
-                        style={'display': 'grid', 'grid-template-columns': '3fr 1fr','padding-bottom': '10px'})
+                                      style={'padding': '10px', 'background-color': '#595959'})],
+                        style={'display': 'grid', 'grid-template-columns': '3fr 1fr', 'padding-bottom': '10px'})
     elif tab == 'tab-3':
         return html.Div(graph2, style={'width': '100%', 'display': 'inline-block'})
 
@@ -376,7 +393,6 @@ def update_distplot(selected_cell, current_fig):
     State('diffplot', 'figure')
 )
 def update_diffplot(selected_cell, current_fig):
-
     np.random.seed(42)
     if not selected_cell:
         return current_fig
@@ -385,14 +401,14 @@ def update_diffplot(selected_cell, current_fig):
     selected_index = selected_cell[0]
 
     # Extract data from the selected row
-    home_team_dvoa = df.iloc[selected_index]['Home_Team_DVOA'] / 100 + 0.09532660918445379
+    home_team_dvoa = df.iloc[selected_index]['Home_Team_DVOA'] / 100 + 0.0896149517112299
     home_team_variance = df.iloc[selected_index]['Home_Team_Variance'] / 100
     away_team_dvoa = df.iloc[selected_index]['Away_Team_DVOA'] / 100
     away_team_variance = df.iloc[selected_index]['Away_Team_Variance'] / 100
 
     # Update the diffplot data with the new mean and variance
-    updated_x1 = np.random.normal(home_team_dvoa, np.sqrt(home_team_variance), 10_000)
-    updated_x2 = np.random.normal(away_team_dvoa, np.sqrt(away_team_variance), 10_000)
+    updated_x1 = np.random.normal(home_team_dvoa, np.sqrt(home_team_variance), 1_000)
+    updated_x2 = np.random.normal(away_team_dvoa, np.sqrt(away_team_variance), 1_000)
 
     ht = df.iloc[selected_index]['Home_Team']
     at = df.iloc[selected_index]['Away_Team']
@@ -429,15 +445,14 @@ def update_diffplot(selected_cell, current_fig):
     num_samples = 10_000
 
     # Generate samples from the first and second distributions
-    dist1_samples = np.random.choice(data, size=int(num_samples * 0.2), replace=True)
-    dist2_samples = np.random.normal(mu1, std1, int(num_samples * 0.8))
+    dist1_samples = np.random.choice(data, size=int(num_samples * 0.25), replace=True)
+    dist2_samples = np.random.normal(mu1, std1, int(num_samples * 0.75))
 
     dist2_samples = [round(element) for element in dist2_samples]
 
-
     # Assign weights to the distributions
-    weight_dist1 = 0.2
-    weight_dist2 = 0.8
+    weight_dist1 = 0.25
+    weight_dist2 = 0.75
 
     # Combine the samples based on weights
     weighted_samples = np.concatenate([
@@ -445,22 +460,27 @@ def update_diffplot(selected_cell, current_fig):
         np.random.choice(dist2_samples, size=int(num_samples * weight_dist2))
     ])
 
+    rounded_samples = np.rint(weighted_samples)
     # Create a histogram trace
     histogram_trace = go.Histogram(x=weighted_samples, histnorm='probability density',
                                    name='Home Team Point Spread', marker=dict(color=ht_color))
 
+    vegas_mean = float(vegas_data[vegas_data["Team"] == ht.split(" ")[-1]]["Spread"].iloc[0]) * -1
 
-    mean = np.mean(weighted_samples)
+    combined_samples = np.rint((rounded_samples * .35 + vegas_mean * .65))
 
+    mean = np.mean(combined_samples)
     if mean < 0:
-        hw_hl = f" The {ht} Lose by {round(mean*2)/2}"
+        hw_hl = f" The {ht} Lose by {round(mean * 2) / 2 * -1}"
+        # print(np.mean(combined_samples < vegas_mean))
     else:
-        hw_hl = f" The {ht} Win by {round(mean*2)/2}"
+        hw_hl = f" The {ht} Win by {round(mean * 2) / 2}"
+        # print(np.mean(combined_samples > vegas_mean))
 
     updated_figure = {
         'data': [histogram_trace],  # Update with the histogram and vertical line traces
         'layout': go.Layout(title=f'Predicted Home Team Point Spread ( {ht} vs. {at} ){hw_hl}',
-                            xaxis=dict(title='Spread', range=[-60,60],tickvals = list(range(-60, 61, 5))))
+                            xaxis=dict(title='Spread', range=[-60, 60], tickvals=list(range(-60, 61, 5))))
     }
 
     return updated_figure
@@ -501,6 +521,7 @@ def update_piechart(selected_cell, current_fig):
     }
 
     return updated_figure
+
 
 if __name__ == '__main__':
     app.run_server(debug=False, host='0.0.0.0', port=8050)
