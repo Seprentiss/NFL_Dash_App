@@ -12,11 +12,11 @@ load_figure_template('JOURNAL')
 # Generate data for the distplot
 np.random.seed(0)
 
-wins = 149
-loses = 76
+wins = 159
+loses = 81
 
-espn_wins = 145
-espn_loses = 80
+espn_wins = 153
+espn_loses = 87
 
 # vegas_wins = 57
 # vegas_loses = 30
@@ -401,7 +401,7 @@ def update_diffplot(selected_cell, current_fig):
     selected_index = selected_cell[0]
 
     # Extract data from the selected row
-    home_team_dvoa = df.iloc[selected_index]['Home_Team_DVOA'] / 100 + 0.0896149517112299
+    home_team_dvoa = df.iloc[selected_index]['Home_Team_DVOA'] / 100 + 0.06721121378342243
     home_team_variance = df.iloc[selected_index]['Home_Team_Variance'] / 100
     away_team_dvoa = df.iloc[selected_index]['Away_Team_DVOA'] / 100
     away_team_variance = df.iloc[selected_index]['Away_Team_Variance'] / 100
@@ -467,7 +467,7 @@ def update_diffplot(selected_cell, current_fig):
 
     vegas_mean = float(vegas_data[vegas_data["Team"] == ht.split(" ")[-1]]["Spread"].iloc[0]) * -1
 
-    combined_samples = np.rint((rounded_samples * .35 + vegas_mean * .65))
+    combined_samples = np.rint((rounded_samples * .4 + vegas_mean * .6))
 
     mean = np.mean(combined_samples)
     if mean < 0:
