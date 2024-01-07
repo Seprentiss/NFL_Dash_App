@@ -12,11 +12,11 @@ load_figure_template('JOURNAL')
 # Generate data for the distplot
 np.random.seed(0)
 
-wins = 159
-loses = 81
+wins = 171
+loses = 85
 
-espn_wins = 153
-espn_loses = 87
+espn_wins = 166
+espn_loses = 90
 
 # vegas_wins = 57
 # vegas_loses = 30
