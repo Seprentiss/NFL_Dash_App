@@ -1,17 +1,7 @@
 Home_Team,Home_Team_WP,Away_Team,Away_Team_WP,Game_Quality,Home_Team_DVOA,Home_Team_Variance,Home_Color,Away_Team_DVOA,Away_Team_Variance,Away_Color
-New Orleans Saints,65%,Atlanta Falcons,35%,47.67,-1.23,12.09,#A08A58,-14.0093,12.76,#A71930
-Cincinnati Bengals,54%,Cleveland Browns,46%,67.41,0.51,17.18,#FB4F14,1.0099999999999998,15.09,#311D00
-Indianapolis Colts,48%,Houston Texans,52%,55.91,-6.74,15.59,#003D79,2.86,18.32,#03202F
-Tennessee Titans,38%,Jacksonville Jaguars,62%,38.55,-17.749200000000002,10.62,#4095D1,5.46,16.56,#006778
-Detroit Lions,70%,Minnesota Vikings,30%,49.67,9.89,14.72,#0076B6,-8.36,7.77,#4F2683
-New England Patriots,59%,New York Jets,41%,47.89,-12.89,14.8,#002244,-18.328,16.63,#125740
-Baltimore Ravens,72%,Pittsburgh Steelers,28%,57.25,36.7595,20.78,#241773,7.191000000000001,17.82,#FFB612
-Carolina Panthers,27%,Tampa Bay Buccaneers,73%,14.8,-36.17,3.89,#0085CA,0.27,19.35,#D50A0A
-Green Bay Packers,46%,Chicago Bears,54%,59.33,-1.52,18.11,#203731,10.3,14.07,#0B162A
-Washington Commanders,20%,Dallas Cowboys,80%,14.52,-29.77,8.47,#773141,17.46,14.71,#041E42
-Las Vegas Raiders,57%,Denver Broncos,43%,65.53,1.67,12.59,#000000,-0.5391199999999996,11.75,#FB4F14
-Los Angeles Chargers,50%,Kansas City Chiefs,50%,51.11,-13.77775,10.66,#0080C6,-6.83,11.04,#E31837
-New York Giants,38%,Philadelphia Eagles,62%,38.0,-19.22718,14.35,#0B2265,2.6,8.55,#014A53
-San Francisco 49ers,71%,Los Angeles Rams,29%,44.71,11.75,13.85,#AA0000,-11.08,13.07,#002244
-Arizona Cardinals,40%,Seattle Seahawks,60%,39.26,-19.53,17.08,#97233F,-0.46,5.34,#002244
-Miami Dolphins,50%,Buffalo Bills,50%,76.13,14.27,18.2,#008E97,21.18,18.5,#00338D
+Houston Texans,49%,Cleveland Browns,51%,59.65,0.89,17.32,#03202F,4.07,17.95,#311D00
+Kansas City Chiefs,48%,Miami Dolphins,52%,67.8,12.67,10.91,#E31837,16.9,17.83,#008E97
+Buffalo Bills,60%,Pittsburgh Steelers,40%,59.56,21.63,18.2,#00338D,8.83,18.56,#FFB612
+Dallas Cowboys,62%,Green Bay Packers,38%,55.08,20.98,14.94,#041E42,5.27,18.49,#203731
+Detroit Lions,59%,Los Angeles Rams,41%,55.87,12.02,15.34,#0076B6,1.76,11.69,#002244
+Tampa Bay Buccaneers,57%,Philadelphia Eagles,43%,50.71,1.82,18.65,#D50A0A,-6.64,14.33,#014A53

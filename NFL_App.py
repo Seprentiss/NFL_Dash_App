@@ -12,11 +12,11 @@ load_figure_template('JOURNAL')
 # Generate data for the distplot
 np.random.seed(0)
 
-wins = 171
-loses = 85
+wins = 181
+loses = 91
 
-espn_wins = 166
-espn_loses = 90
+espn_wins = 176
+espn_loses = 96
 
 # vegas_wins = 57
 # vegas_loses = 30
@@ -401,14 +401,14 @@ def update_diffplot(selected_cell, current_fig):
     selected_index = selected_cell[0]
 
     # Extract data from the selected row
-    home_team_dvoa = df.iloc[selected_index]['Home_Team_DVOA'] / 100 + 0.06721121378342243
+    home_team_dvoa = df.iloc[selected_index]['Home_Team_DVOA'] / 100 + 0.018275057753175172
     home_team_variance = df.iloc[selected_index]['Home_Team_Variance'] / 100
     away_team_dvoa = df.iloc[selected_index]['Away_Team_DVOA'] / 100
     away_team_variance = df.iloc[selected_index]['Away_Team_Variance'] / 100
 
     # Update the diffplot data with the new mean and variance
-    updated_x1 = np.random.normal(home_team_dvoa, np.sqrt(home_team_variance), 1_000)
-    updated_x2 = np.random.normal(away_team_dvoa, np.sqrt(away_team_variance), 1_000)
+    updated_x1 = np.random.normal(home_team_dvoa, np.sqrt(home_team_variance), 10_000)
+    updated_x2 = np.random.normal(away_team_dvoa, np.sqrt(away_team_variance), 10_000)
 
     ht = df.iloc[selected_index]['Home_Team']
     at = df.iloc[selected_index]['Away_Team']
