@@ -280,7 +280,7 @@ app.layout = html.Div([
 
                         ),
                         dbc.Tab(
-                            label='Home Team Point Differential',
+                            label='Home Team Point Differential ( Different Model, Potential for Differing Winners )',
                             tab_id='tab-3',
                             active_label_style={"background-color": "#2e4059"},
                             label_style={"background-color": "#595959"}
@@ -524,4 +524,4 @@ def update_piechart(selected_cell, current_fig):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=False, host='0.0.0.0', port=8050)
+    app.run_server(debug=False, host='0.0.0.0', port=8080)
