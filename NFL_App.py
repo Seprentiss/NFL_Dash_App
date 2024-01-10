@@ -7,10 +7,16 @@ import numpy as np
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
 from dash_bootstrap_templates import load_figure_template
+import dash_ag_grid as dag
 
 load_figure_template('JOURNAL')
 # Generate data for the distplot
 np.random.seed(0)
+
+columnDefs = [
+    {"field": "Team"},
+    {"field": "SOS", "sortable": True},
+]
 
 wins = 181
 loses = 91
@@ -68,6 +74,14 @@ df = pd.read_csv('wp_data.csv', index_col=False)
 vegas_data = pd.read_csv("Vegas_Lines.csv")
 
 pow_data = pd.read_csv('Pow_data.csv', index_col=False)
+
+data = pd.DataFrame()
+
+sos_data = pow_data.sort_values(by=['SOS'], ascending=False)[["Team", "SOS"]]
+
+print(sos_data)
+
+print(pow_data)
 
 table_data = df.drop(
     columns=['Home_Team_DVOA', 'Home_Team_Variance', 'Home_Color', 'Home_Team_WP', 'Away_Team_DVOA',
@@ -305,6 +319,27 @@ app.layout = html.Div([
     ),
 
     html.Div(graph3, style={'font-weight': 'bold'}),
+
+    html.Section(
+        children=[
+            dcc.Markdown(f"The table below shows the Strength of Schedule (SOS) for each team. "
+                         f"A team's SOS is the average of all of their opponents team rating. ( Higher score means a harder schedule )",
+
+                         style={'font-size': '20px', 'font-weight': 'bold', 'width': '100%',
+                                'display': 'inline-block'}),
+        ],
+        style={'max-width': '1000px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#2e4059',
+               'border-radius': '8px', 'box-shadow': '0 0 10px rgba(0, 0, 0, 0.1)'}
+    ),
+
+    dag.AgGrid(
+        id="row-sorting-simple",
+        rowData=sos_data.to_dict("records"),
+        columnDefs=columnDefs,
+        defaultColDef={"resizable": True, "sortable": True, "filter": True},
+        columnSize="sizeToFit",
+        rowClass= "bg-dark text-light"
+    ),
 
 ], style={'padding': '10px'}, className="dbc dbc-row-selectable")
 
