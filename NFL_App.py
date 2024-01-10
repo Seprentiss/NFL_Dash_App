@@ -79,10 +79,6 @@ data = pd.DataFrame()
 
 sos_data = pow_data.sort_values(by=['SOS'], ascending=False)[["Team", "SOS"]]
 
-print(sos_data)
-
-print(pow_data)
-
 table_data = df.drop(
     columns=['Home_Team_DVOA', 'Home_Team_Variance', 'Home_Color', 'Home_Team_WP', 'Away_Team_DVOA',
              'Away_Team_Variance',
@@ -323,7 +319,7 @@ app.layout = html.Div([
     html.Section(
         children=[
             dcc.Markdown(f"The table below shows the Strength of Schedule (SOS) for each team. "
-                         f"A team's SOS is the average of all of their opponents team rating. ( Higher score means a harder schedule )",
+                         f"A team's SOS is the average of all of their opponents team ratings. ( Higher score means a harder schedule )",
 
                          style={'font-size': '20px', 'font-weight': 'bold', 'width': '100%',
                                 'display': 'inline-block'}),
