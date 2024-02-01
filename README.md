@@ -8,7 +8,7 @@ The Dashboard:
 
 -	I’ve developed a dashboard and now host it on the Render platform. The dashboard allows you to explore my picks for the week, along with some other exciting features.
 
-🌐 Explore the Project: Project Link
+🌐 Explore the Project: https://seprentiss-nfl-app.onrender.com
  -	(Note: I’m hosting on a budget, so it might take a minute or two to load. Thanks for your patience!)
 
 💻 Technologies Used:
