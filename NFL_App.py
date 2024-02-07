@@ -18,11 +18,11 @@ columnDefs = [
     {"field": "SOS", "sortable": True},
 ]
 
-wins = 181
-loses = 91
+wins = 190
+loses = 94
 
-espn_wins = 176
-espn_loses = 96
+espn_wins = 183
+espn_loses = 101
 
 # vegas_wins = 57
 # vegas_loses = 30
@@ -334,7 +334,7 @@ app.layout = html.Div([
         columnDefs=columnDefs,
         defaultColDef={"resizable": True, "sortable": True, "filter": True},
         columnSize="sizeToFit",
-        rowClass= "bg-dark text-light"
+        rowClass="bg-dark text-light"
     ),
 
 ], style={'padding': '10px'}, className="dbc dbc-row-selectable")
@@ -555,4 +555,4 @@ def update_piechart(selected_cell, current_fig):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=False, host='0.0.0.0', port=8080)
+    app.run_server(debug=False, host='0.0.0.0', port=8040)
