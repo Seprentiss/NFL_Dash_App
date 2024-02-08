@@ -18,6 +18,9 @@ columnDefs = [
     {"field": "SOS", "sortable": True},
 ]
 
+player_columnDefs = [{'field':'Player','filter': 'agTextColumnFilter', 'filterParams':{"filterOptions": ["equals","contains"],"maxNumConditions": 1}},{'field':'POS','filter': 'agTextColumnFilter', 'filterParams':{"filterOptions": ["equals"],"maxNumConditions": 1}},{'field':'GP','filter': 'agNumberColumnFilter', 'filterParams':{"filterOptions": ["equals","greaterThan","lessThan"],"maxNumConditions": 1}},
+                     {'field':'Total EPA'},{'field':'EPA per Game'},{'field':'EPA per Play ( all plays contributed )'},{'field':'EPA per Play ( all offense )'},{'field':'Total Passing EPA'},{'field':'EPA per Completion'},{'field':'EPA per Attempt'},{'field':'Rushing EPA'},{'field':'EPA per Carry'},{'field':'Receiving EPA'},{'field':'EPA per Reception'},{'field':'EPA per Target'}]
+
 wins = 190
 loses = 94
 
@@ -83,6 +86,8 @@ table_data = df.drop(
     columns=['Home_Team_DVOA', 'Home_Team_Variance', 'Home_Color', 'Home_Team_WP', 'Away_Team_DVOA',
              'Away_Team_Variance',
              "Away_Color", 'Away_Team_WP', "Game_Quality"])
+
+player_table_data = pd.read_csv("NFL_Player_EPA.csv",index_col=False)
 
 graph1 = dcc.Graph(id='distplot', figure=fig),
 graph2 = dcc.Graph(
@@ -247,7 +252,7 @@ app.layout = html.Div([
         id='data-table',
         columns=[{'name': col, 'id': col} for col in table_data.columns],
         data=table_data.to_dict('records'),
-        style_table={'textAlign': 'center'},  # Set table background color
+        style_table={'textAlign': 'center'},
         style_cell={'textAlign': 'center'},
         style_header={'textAlign': 'center'},
         row_selectable='single',  # Allow single-row selection
@@ -336,6 +341,59 @@ app.layout = html.Div([
         columnSize="sizeToFit",
         rowClass="bg-dark text-light"
     ),
+
+    html.Section(
+        children=[
+            html.P("This table displays player Expected Points Added (EPA) metrics.", style={'font-weight': 'bold'}),
+
+                    html.P('''Expected Points Added (EPA) measures the impact of each play in football by quantifying 
+                    its contribution to a team's expected scoring outcome. I have enhanced the EPA metric by 
+                    adjusting it based on the quality of opponents faced by each team and player, providing a more 
+                    comprehensive evaluation of performance.'''),
+
+            html.P('''Some table features'''),
+
+            dcc.Markdown("""
+        **Sorting and Filtering**:
+        
+        - **Sorting:** To sort the data, simply click on the column header. Click once to sort in ascending order and again to sort in descending order. For example, clicking on the "Player" column header will sort the player names alphabetically.
+        - **Filtering:** You can filter the data based on specific criteria. For columns like "Player," "Position (POS)," and "GP (Games Played)," you'll see filter icons. Click on the filter icon in the column header, then choose from the available filter options, such as "equals" or "contains," to refine the displayed data.
+    """),
+
+            dcc.Markdown("""
+                **Resizing Columns**:
+                - **Column Width Adjustment:** To resize columns, simply hover your cursor over the border between two column headers. When the cursor changes to a double-sided arrow, click and drag to adjust the width of the column. This allows you to customize the table layout based on your preference and the amount of data you want to see in each column. For instance, you can make the "Player" column wider to display longer player names more comfortably.
+            """),
+        ],
+        style={'max-width': '1000px', 'margin': '20px auto', 'padding': '20px', 'background-color': '#2e4059',
+               'border-radius': '8px', 'box-shadow': '0 0 10px rgba(0, 0, 0, 0.1)'}
+    ),
+
+    dag.AgGrid(
+        id="player-sorting-simple",
+        rowData=player_table_data.to_dict("records"),
+        columnDefs=player_columnDefs,
+        defaultColDef={"resizable": True, "sortable": True},
+        rowClass="bg-dark text-light",
+        dashGridOptions={"pagination": True, "paginationPageSize": 20},
+    ),
+
+    # dash_table.DataTable(
+    #     id='data-table-interactive',
+    #     columns=[{'name': col, 'id': col,"selectable": True} for col in player_table_data.columns],
+    #     data=player_table_data.to_dict('records'),
+    #     editable=True,
+    #     filter_action="native",
+    #     sort_action="native",
+    #     sort_mode="single",
+    #     style_table={'textAlign': 'center'},
+    #     style_cell={'textAlign': 'center'},
+    #     style_header={'textAlign': 'center'},
+    #     row_selectable='single',  # Allow single-row selection
+    #     selected_rows=[],
+    #     page_size= 20
+    #
+    # ),
 
 ], style={'padding': '10px'}, className="dbc dbc-row-selectable")
 
