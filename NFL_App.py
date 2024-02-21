@@ -22,10 +22,10 @@ player_columnDefs = [{'field':'Player','filter': 'agTextColumnFilter', 'filterPa
                      {'field':'Total EPA'},{'field':'EPA per Game'},{'field':'EPA per Play ( all plays contributed )'},{'field':'EPA per Play ( all offense )'},{'field':'Total Passing EPA'},{'field':'EPA per Completion'},{'field':'EPA per Attempt'},{'field':'Rushing EPA'},{'field':'EPA per Carry'},{'field':'Receiving EPA'},{'field':'EPA per Reception'},{'field':'EPA per Target'}]
 
 wins = 190
-loses = 94
+loses = 95
 
 espn_wins = 183
-espn_loses = 101
+espn_loses = 102
 
 # vegas_wins = 57
 # vegas_loses = 30
